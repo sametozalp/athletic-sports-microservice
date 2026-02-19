@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CoachingAssignmentImpl implements CoachingAssignmentService {
 
     private final CoachingAssignmentRepository repository;
-    //    private final UserProfileService userProfileService;
     private final UserProfileClient userProfileClient;
 
     @Override

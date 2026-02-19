@@ -5,8 +5,8 @@ import com.ozalp.training.business.dtos.responses.TrainingProgramResponse;
 import com.ozalp.training.business.dtos.responses.UserProfile;
 import com.ozalp.training.business.mappers.TrainingProgramMapper;
 import com.ozalp.training.business.services.TrainingProgramService;
-import com.ozalp.training.dataAccess.TrainingProgramRepository;
 import com.ozalp.training.clients.UserProfileClient;
+import com.ozalp.training.dataAccess.TrainingProgramRepository;
 import com.ozalp.training.models.entities.TrainingProgram;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,6 @@ public class TrainingProgramImpl implements TrainingProgramService {
 
     private final TrainingProgramRepository repository;
     private final TrainingProgramMapper mapper;
-    //    private final UserProfileService userProfileService;
     private final UserProfileClient userProfileClient;
 
     @Override

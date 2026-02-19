@@ -10,6 +10,6 @@ import lombok.Setter;
 public class CoachingAssignmentResponse {
 
     private int id;
-//    private UserProfileResponse athleteUserProfile;
-//    private UserProfileResponse coachUserProfile;
+    private UserProfile athleteUserProfile;
+    private UserProfile coachUserProfile;
 }

@@ -11,9 +11,9 @@ public class TrainingProgramResponse {
 
     private int id;
 
-//    private UserProfileResponse coach;
-//
-//    private UserProfileResponse athlete;
+    private UserProfile coach;
+
+    private UserProfile athlete;
 
     private String title;
 

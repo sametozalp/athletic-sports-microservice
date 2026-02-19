@@ -23,7 +23,6 @@ public class AthleteProgressImpl implements AthleteProgressService {
 
     private final AthleteProgressRepository repository;
     private final AthleteProgressMapper mapper;
-    //    private final OrganizationService organizationService;
     private final TrainingItemTaskService trainingItemTaskService;
     private final OrganizationClient organizationClient;
 
