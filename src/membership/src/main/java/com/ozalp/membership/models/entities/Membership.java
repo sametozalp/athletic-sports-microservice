@@ -1,6 +1,6 @@
 package com.ozalp.membership.models.entities;
 
-import com.ozalp.athletic_sports.models.enums.MembershipStatus;
+import com.ozalp.membership.models.enums.MembershipStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,13 +17,11 @@ import java.time.LocalDateTime;
 @Setter
 public class Membership extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+    @Column(nullable = false)
+    private int organizationId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserProfile userProfile;
+    @Column(nullable = false)
+    private int userProfileId;
 
     @Column(nullable = false)
     private LocalDateTime joined_at;
@@ -33,11 +31,6 @@ public class Membership extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private MembershipStatus status;
-
-    @PrePersist
-    private void onCreate() {
-        this.status = MembershipStatus.ACTIVE;
-    }
+    private MembershipStatus status = MembershipStatus.ACTIVE;
 
 }

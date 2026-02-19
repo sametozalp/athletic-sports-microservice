@@ -1,6 +1,6 @@
 package com.ozalp.membership.models.entities;
 
-import com.ozalp.athletic_sports.models.enums.RequestStatus;
+import com.ozalp.membership.models.enums.RequestStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,21 +15,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MembershipRequest extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserProfile userProfile;
+    @Column(nullable = false)
+    private int userProfileId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+    @Column(nullable = false)
+    private int organizationId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RequestStatus status;
-
-    @PrePersist
-    private void onCreate() {
-        this.status = RequestStatus.PENDING;
-    }
+    private RequestStatus status = RequestStatus.PENDING;
+    ;
 
 }
