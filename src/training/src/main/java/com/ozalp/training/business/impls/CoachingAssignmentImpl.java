@@ -40,8 +40,8 @@ public class CoachingAssignmentImpl implements CoachingAssignmentService {
     @Override
     @Transactional
     public void create(CreateCoachingAssignmentRequest request) {
-        UserProfile athlete = userProfileClient.getUserById(request.getAthleteUserProfileId());
-        UserProfile coach = userProfileClient.getUserById(request.getCoachUserProfileId());
+        UserProfile athlete = userProfileClient.getProfileDetail(request.getAthleteUserProfileId());
+        UserProfile coach = userProfileClient.getProfileDetail(request.getCoachUserProfileId());
         CoachingAssignment coachingAssignment = new CoachingAssignment(athlete.getId(), coach.getId());
         repository.save(coachingAssignment);
     }

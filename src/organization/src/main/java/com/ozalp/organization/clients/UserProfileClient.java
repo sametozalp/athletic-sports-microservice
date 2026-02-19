@@ -1,6 +1,6 @@
-package com.ozalp.training.clients;
+package com.ozalp.organization.clients;
 
-import com.ozalp.training.business.dtos.responses.UserProfile;
+import com.ozalp.organization.business.dtos.responses.UserProfile;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

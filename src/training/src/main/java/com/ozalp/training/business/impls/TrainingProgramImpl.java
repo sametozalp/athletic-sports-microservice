@@ -41,8 +41,8 @@ public class TrainingProgramImpl implements TrainingProgramService {
 
     @Override
     public TrainingProgramResponse create(CreateTrainingProgramRequest request) {
-        UserProfile athlete = userProfileClient.getUserById(request.getAthleteUserProfileId());
-        UserProfile coach = userProfileClient.getUserById(request.getCoachUserProfileId());
+        UserProfile athlete = userProfileClient.getProfileDetail(request.getAthleteUserProfileId());
+        UserProfile coach = userProfileClient.getProfileDetail(request.getCoachUserProfileId());
 
         TrainingProgram trainingProgram = mapper.toEntity(request);
         trainingProgram.setAthleteUserProfileId(athlete.getId());

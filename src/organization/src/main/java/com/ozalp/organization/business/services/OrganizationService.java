@@ -7,4 +7,6 @@ import com.ozalp.organization.models.entities.Organization;
 public interface OrganizationService extends BaseService<Organization> {
 
     OrganizationResponse create(CreateOrganizationRequest request);
+
+    OrganizationResponse getOrganizationDetail(int id);
 }
