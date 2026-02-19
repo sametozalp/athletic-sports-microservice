@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/src/training-program/pom.xml" />
         <option value="$PROJECT_DIR$/src/user-profile/pom.xml" />
         <option value="$PROJECT_DIR$/src/training/pom.xml" />
+        <option value="$PROJECT_DIR$/src/mail/pom.xml" />
       </list>
     </option>
   </component>
