@@ -5,10 +5,7 @@ import com.ozalp.auth.business.services.UserProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +19,8 @@ public class UserProfileController {
         return ResponseEntity.ok(userProfileService.updateProfile(request));
     }
 
-    @PostMapping("/getById")
-    ResponseEntity<?> getById(int id) {
-        return ResponseEntity.ok(userProfileService.findById(id));
+    @GetMapping("/getProfileDetail/{id}")
+    ResponseEntity<?> findById(@PathVariable int id) {
+        return ResponseEntity.ok(userProfileService.getProfileDetail(id));
     }
 }

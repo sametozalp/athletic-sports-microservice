@@ -1,19 +1,23 @@
 package com.ozalp.training.business.impls;
 
 import com.ozalp.training.business.dtos.requests.CreateCoachingAssignmentRequest;
+import com.ozalp.training.business.dtos.responses.UserProfile;
 import com.ozalp.training.business.services.CoachingAssignmentService;
+import com.ozalp.training.clients.UserProfileClient;
 import com.ozalp.training.dataAccess.CoachingAssignmentRepository;
 import com.ozalp.training.models.entities.CoachingAssignment;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class CoachingAssignmentImpl implements CoachingAssignmentService {
 
     private final CoachingAssignmentRepository repository;
-//    private final UserProfileService userProfileService;
+    //    private final UserProfileService userProfileService;
+    private final UserProfileClient userProfileClient;
 
     @Override
     public CoachingAssignment findById(int id) {
@@ -34,10 +38,11 @@ public class CoachingAssignmentImpl implements CoachingAssignmentService {
     }
 
     @Override
+    @Transactional
     public void create(CreateCoachingAssignmentRequest request) {
-//        UserProfile athlete = userProfileService.findById(request.getAthleteUserProfileId());
-//        UserProfile coach = userProfileService.findById(request.getCoachUserProfileId());
-//        CoachingAssignment coachingAssignment = new CoachingAssignment(athlete, coach);
-//        repository.save(coachingAssignment);
+        UserProfile athlete = userProfileClient.getUserById(request.getAthleteUserProfileId());
+        UserProfile coach = userProfileClient.getUserById(request.getCoachUserProfileId());
+        CoachingAssignment coachingAssignment = new CoachingAssignment(athlete.getId(), coach.getId());
+        repository.save(coachingAssignment);
     }
 }

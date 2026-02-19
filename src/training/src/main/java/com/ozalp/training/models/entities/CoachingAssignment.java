@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// which one athlete -> which one coach
+
 @Entity
 @Table(name = "coaching_assignments")
 @AllArgsConstructor
