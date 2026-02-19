@@ -12,8 +12,9 @@ public interface AthleteProgressRepository extends JpaRepository<AthleteProgress
     @Query("""
                 select coalesce(sum(ap.pointsEarned), 0)
                 from AthleteProgress ap
-                where ap.status = com.ozalp.athletic_sports.models.enums.AthleteProgressStatus.COMPLETED
-                  and ap.trainingItemTask.trainingProgram.athlete.id = :userProfileId
+                where ap.status = com.ozalp.training_program.models.enums.AthleteProgressStatus.COMPLETED
+                  and ap.trainingItemTask.trainingProgram.athleteUserProfileId = :userProfileId
+                  and ap.trainingItemTask.trainingProgram.athleteUserProfileId = :userProfileId
                   and ap.createdAt >= :#{T(java.time.LocalDateTime).now().minusMonths(1)}
             """)
     int getTotalPointThisMonth(int userProfileId);
@@ -24,7 +25,7 @@ public interface AthleteProgressRepository extends JpaRepository<AthleteProgress
                         WHEN COUNT(ap) = 0 THEN 0
                         ELSE (SUM(
                             CASE 
-                                WHEN ap.status = com.ozalp.athletic_sports.models.enums.AthleteProgressStatus.COMPLETED 
+                                WHEN ap.status = com.ozalp.training_program.models.enums.AthleteProgressStatus.COMPLETED 
                                 THEN 1.0 ELSE 0.0 
                             END
                         ) * 100.0 / COUNT(ap))
@@ -37,7 +38,7 @@ public interface AthleteProgressRepository extends JpaRepository<AthleteProgress
 
     @Query("""
             select ap from AthleteProgress ap
-            where ap.trainingItemTask.trainingProgram.athlete.id = :userProfileId
+            where ap.trainingItemTask.trainingProgram.athleteUserProfileId = :userProfileId
             and ap.trainingItemTask.date >= :fromDate
             """)
     List<AthleteProgress> getDailyMissions(int userProfileId, LocalDate fromDate);

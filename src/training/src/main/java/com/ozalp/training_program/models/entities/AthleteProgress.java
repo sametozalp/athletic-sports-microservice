@@ -35,4 +35,10 @@ public class AthleteProgress extends BaseEntity {
     @Column
     private int organizationId;
 
+    public AthleteProgress(TrainingItemTask trainingItemTask, AthleteProgressStatus status, LocalDateTime completedAt, int pointsEarned) {
+        this.trainingItemTask = trainingItemTask;
+        this.status = status;
+        this.completedAt = completedAt;
+        this.pointsEarned = pointsEarned;
+    }
 }
