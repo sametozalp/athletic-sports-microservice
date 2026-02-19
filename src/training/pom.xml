@@ -87,6 +87,15 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>1.6.3</version>
         </dependency>
+
+        <!-- Source: https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>4.3.0</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

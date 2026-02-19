@@ -21,4 +21,9 @@ public class UserProfileController {
     ResponseEntity<?> update(@RequestBody @Valid UpdateProfileRequest request) {
         return ResponseEntity.ok(userProfileService.updateProfile(request));
     }
+
+    @PostMapping("/getById")
+    ResponseEntity<?> getById(int id) {
+        return ResponseEntity.ok(userProfileService.findById(id));
+    }
 }
