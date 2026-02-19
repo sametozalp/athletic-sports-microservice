@@ -10,7 +10,7 @@ public class OrganizationResponse {
 
     private int id;
 
-//    private UserProfileResponse owner;
+    private UserProfile owner;
 
     private String name;
 
