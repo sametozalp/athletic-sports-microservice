@@ -20,6 +20,6 @@ public class AthleteProgressResponse {
 
     private int pointsEarned;
 
-//    private OrganizationResponse organization;
+    private Organization organization;
 
 }

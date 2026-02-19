@@ -2,9 +2,11 @@ package com.ozalp.training.business.impls;
 
 import com.ozalp.training.business.dtos.requests.CreateAthleteProgressRequest;
 import com.ozalp.training.business.dtos.responses.AthleteProgressResponse;
+import com.ozalp.training.business.dtos.responses.Organization;
 import com.ozalp.training.business.mappers.AthleteProgressMapper;
 import com.ozalp.training.business.services.AthleteProgressService;
 import com.ozalp.training.business.services.TrainingItemTaskService;
+import com.ozalp.training.clients.OrganizationClient;
 import com.ozalp.training.dataAccess.AthleteProgressRepository;
 import com.ozalp.training.models.entities.AthleteProgress;
 import com.ozalp.training.models.entities.TrainingItemTask;
@@ -21,8 +23,9 @@ public class AthleteProgressImpl implements AthleteProgressService {
 
     private final AthleteProgressRepository repository;
     private final AthleteProgressMapper mapper;
-//    private final OrganizationService organizationService;
+    //    private final OrganizationService organizationService;
     private final TrainingItemTaskService trainingItemTaskService;
+    private final OrganizationClient organizationClient;
 
     @Override
     public AthleteProgress findById(int id) {
@@ -44,10 +47,10 @@ public class AthleteProgressImpl implements AthleteProgressService {
 
     @Override
     public AthleteProgressResponse create(CreateAthleteProgressRequest request) {
-//        Organization organization = organizationService.findById(request.getOrganizationId());
+        Organization organization = organizationClient.getOrganizationDetail(request.getOrganizationId());
         TrainingItemTask trainingItemTask = trainingItemTaskService.findById(request.getTrainingItemId());
         AthleteProgress athleteProgress = mapper.toEntity(request);
-//        athleteProgress.setOrganization(organization);
+        athleteProgress.setOrganizationId(organization.getId());
         athleteProgress.setTrainingItemTask(trainingItemTask);
         athleteProgress.setPointsEarned(trainingItemTask.getPoint());
         return mapper.toResponse(repository.save(athleteProgress));
