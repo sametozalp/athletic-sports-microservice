@@ -19,7 +19,7 @@ public class OrganizationController {
         return ResponseEntity.ok(organizationService.create(request));
     }
 
-    @PostMapping("/getDetail")
+    @GetMapping("/getDetail/{id}")
     ResponseEntity<?> getOrganizationDetail(@PathVariable int id) {
         return ResponseEntity.ok(organizationService.getOrganizationDetail(id));
     }

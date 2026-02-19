@@ -18,7 +18,6 @@ public class OrganizationImpl implements OrganizationService {
 
     private final OrganizationRepository repository;
     private final OrganizationMapper mapper;
-    //    private final UserProfileService userProfileService;
     private final UserProfileClient userProfileClient;
 
     @Override
@@ -44,11 +43,17 @@ public class OrganizationImpl implements OrganizationService {
         UserProfile owner = userProfileClient.getProfileDetail(request.getOwnerUserProfileId());
         Organization organization = mapper.toEntity(request);
         organization.setOwnerUserProfileId(owner.getId());
-        return mapper.toResponse(repository.save(organization));
+        OrganizationResponse response = mapper.toResponse(repository.save(organization));
+        response.setOwner(owner);
+        return response;
     }
 
     @Override
     public OrganizationResponse getOrganizationDetail(int id) {
-        return mapper.toResponse(repository.findById(id).orElseThrow());
+        Organization organization = repository.findById(id).orElseThrow();
+        UserProfile userProfile = userProfileClient.getProfileDetail(organization.getOwnerUserProfileId());
+        OrganizationResponse response = mapper.toResponse(organization);
+        response.setOwner(userProfile);
+        return response;
     }
 }

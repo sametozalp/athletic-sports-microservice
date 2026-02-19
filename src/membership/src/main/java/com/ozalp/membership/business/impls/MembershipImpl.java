@@ -10,6 +10,7 @@ import com.ozalp.membership.clients.OrganizationClient;
 import com.ozalp.membership.clients.UserProfileClient;
 import com.ozalp.membership.dataAccess.MembershipRepository;
 import com.ozalp.membership.models.entities.Membership;
+import com.ozalp.membership.models.enums.MembershipStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,10 @@ public class MembershipImpl implements MembershipService {
         Membership membership = mapper.toEntity(request);
         membership.setOrganizationId(organization.getId());
         membership.setUserProfileId(userProfile.getId());
-        return mapper.toResponse(repository.save(membership));
+        MembershipResponse response = mapper.toResponse(repository.save(membership));
+        response.setMembershipStatus(MembershipStatus.ACTIVE);
+        response.setOrganization(organization);
+        response.setUserProfile(userProfile);
+        return response;
     }
 }

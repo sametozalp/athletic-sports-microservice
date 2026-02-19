@@ -11,6 +11,7 @@ import com.ozalp.training.models.entities.TrainingProgram;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,7 @@ public class TrainingProgramImpl implements TrainingProgramService {
     }
 
     @Override
+    @Transactional
     public TrainingProgramResponse create(CreateTrainingProgramRequest request) {
         UserProfile athlete = userProfileClient.getProfileDetail(request.getAthleteUserProfileId());
         UserProfile coach = userProfileClient.getProfileDetail(request.getCoachUserProfileId());
@@ -46,6 +48,9 @@ public class TrainingProgramImpl implements TrainingProgramService {
         TrainingProgram trainingProgram = mapper.toEntity(request);
         trainingProgram.setAthleteUserProfileId(athlete.getId());
         trainingProgram.setCoachUserProfileId(coach.getId());
-        return mapper.toResponse(repository.save(trainingProgram));
+        TrainingProgramResponse response = mapper.toResponse(repository.save(trainingProgram));
+        response.setAthlete(athlete);
+        response.setCoach(coach);
+        return response;
     }
 }

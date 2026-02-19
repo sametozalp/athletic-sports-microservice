@@ -2,13 +2,18 @@ package com.ozalp.membership.business.impls;
 
 import com.ozalp.membership.business.dtos.requests.CreateMembershipRequestRequest;
 import com.ozalp.membership.business.dtos.responses.MembershipRequestResponse;
+import com.ozalp.membership.business.dtos.responses.Organization;
+import com.ozalp.membership.business.dtos.responses.UserProfile;
 import com.ozalp.membership.business.mappers.UserOrganizationMapper;
 import com.ozalp.membership.business.services.MembershipRequestService;
+import com.ozalp.membership.clients.OrganizationClient;
+import com.ozalp.membership.clients.UserProfileClient;
 import com.ozalp.membership.dataAccess.MembershipRequestRepository;
 import com.ozalp.membership.models.entities.MembershipRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +21,8 @@ public class MembershipRequestImpl implements MembershipRequestService {
 
     private final MembershipRequestRepository repository;
     private final UserOrganizationMapper mapper;
+    private final OrganizationClient organizationClient;
+    private final UserProfileClient userProfileClient;
 
     @Override
     public MembershipRequest findById(int id) {
@@ -36,8 +43,14 @@ public class MembershipRequestImpl implements MembershipRequestService {
     }
 
     @Override
+    @Transactional
     public MembershipRequestResponse create(CreateMembershipRequestRequest request) {
         MembershipRequest membershipRequest = mapper.toEntity(request);
-        return mapper.toResponse(repository.save(membershipRequest));
+        Organization organization = organizationClient.getOrganizationDetail(request.getOrganizationId());
+        UserProfile userProfile = userProfileClient.getProfileDetail(request.getUserProfileId());
+        MembershipRequestResponse response = mapper.toResponse(repository.save(membershipRequest));
+        response.setOrganization(organization);
+        response.setUserProfile(userProfile);
+        return response;
     }
 }
