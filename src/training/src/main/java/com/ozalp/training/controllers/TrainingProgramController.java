@@ -5,6 +5,7 @@ import com.ozalp.training.business.services.TrainingProgramService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.utils.consts.ApiConst;
+import org.ozalp.utils.consts.ApiParams;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ public class TrainingProgramController {
 
     private final TrainingProgramService trainingProgramService;
 
-    @PostMapping("/create")
+    @PostMapping(ApiParams.TrainingProgram.CREATE)
     ResponseEntity<?> create(@RequestBody @Valid CreateTrainingProgramRequest request) {
         return ResponseEntity.ok(trainingProgramService.create(request));
     }

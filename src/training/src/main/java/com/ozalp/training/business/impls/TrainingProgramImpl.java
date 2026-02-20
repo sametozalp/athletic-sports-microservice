@@ -52,11 +52,7 @@ public class TrainingProgramImpl implements TrainingProgramService {
         TrainingProgram trainingProgram = mapper.toEntity(request);
         trainingProgram.setAthleteUserProfileId(athlete.getId());
         trainingProgram.setCoachUserProfileId(coach.getId());
-        TrainingProgramResponse response = mapper.toResponse(repository.save(trainingProgram));
-        response.setAthlete(athlete);
-        response.setCoach(coach);
-
         kafkaTemplate.send(EventConst.Topics.CREATED_TRAINING_PROGRAM, new TrainingProgramCreatedEvent(athlete.getEmail(), trainingProgram.getId()));
-        return response;
+        return mapper.toResponse(repository.save(trainingProgram), athlete, coach);
     }
 }

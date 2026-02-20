@@ -5,6 +5,7 @@ import com.ozalp.training.business.services.CoachingAssignmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.utils.consts.ApiConst;
+import org.ozalp.utils.consts.ApiParams;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +17,13 @@ public class CoachingAssignmentController {
 
     private final CoachingAssignmentService coachingAssignmentService;
 
-    @PostMapping("/create")
+    @PostMapping(ApiParams.CoachingAssignment.CREATE)
     ResponseEntity<?> create(@RequestBody @Valid CreateCoachingAssignmentRequest request) {
         coachingAssignmentService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping(ApiParams.CoachingAssignment.DELETE)
     ResponseEntity<?> delete(@PathVariable int id) {
         coachingAssignmentService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");

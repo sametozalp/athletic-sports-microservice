@@ -5,6 +5,7 @@ import com.ozalp.auth.business.services.UserRoleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.utils.consts.ApiConst;
+import org.ozalp.utils.consts.ApiParams;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ public class UserRoleController {
 
     private final UserRoleService userRoleService;
 
-    @PostMapping("/create")
+    @PostMapping(ApiParams.UserRole.CREATE)
     ResponseEntity<?> create(@RequestBody @Valid CreateUserRoleRequest request) {
         userRoleService.create(request);
         return ResponseEntity.ok("");
