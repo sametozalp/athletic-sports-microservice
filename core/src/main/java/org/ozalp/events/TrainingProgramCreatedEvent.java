@@ -1,24 +1,16 @@
 package org.ozalp.events;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TrainingProgramCreatedEvent {
 
     private String userEmail;
 
     private int trainingProgramId;
 
-    public TrainingProgramCreatedEvent() {
-    }
-
-    public TrainingProgramCreatedEvent(String userEmail, int trainingProgramId) {
-        this.userEmail = userEmail;
-        this.trainingProgramId = trainingProgramId;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public int getTrainingProgramId() {
-        return trainingProgramId;
-    }
 }

@@ -10,6 +10,9 @@ import com.ozalp.organization.dataAccess.OrganizationRepository;
 import com.ozalp.organization.models.entities.Organization;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.events.OrganizationCreatedEvent;
+import org.ozalp.utils.consts.EventConst;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +22,7 @@ public class OrganizationImpl implements OrganizationService {
     private final OrganizationRepository repository;
     private final OrganizationMapper mapper;
     private final UserProfileClient userProfileClient;
+    private final KafkaTemplate<String, OrganizationCreatedEvent> kafkaTemplate;
 
     @Override
     public Organization findById(int id) {
@@ -45,6 +49,8 @@ public class OrganizationImpl implements OrganizationService {
         organization.setOwnerUserProfileId(owner.getId());
         OrganizationResponse response = mapper.toResponse(repository.save(organization));
         response.setOwner(owner);
+
+        kafkaTemplate.send(EventConst.Topics.CREATED_ORGANIZATION, new OrganizationCreatedEvent(owner.getEmail(), organization.getName()));
         return response;
     }
 

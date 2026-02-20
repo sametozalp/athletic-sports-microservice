@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreatedEvent {
+public class OrganizationCreatedEvent {
 
-    private String email;
+    private String ownerEmail;
 
-    private String username;
+    private String organizationName;
 
 }

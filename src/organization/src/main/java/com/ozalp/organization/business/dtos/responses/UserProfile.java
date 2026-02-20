@@ -12,4 +12,7 @@ public class UserProfile {
     private String name;
 
     private String surname;
+
+    private String email;
+
 }
