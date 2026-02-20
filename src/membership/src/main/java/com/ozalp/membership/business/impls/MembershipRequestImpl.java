@@ -12,6 +12,9 @@ import com.ozalp.membership.dataAccess.MembershipRequestRepository;
 import com.ozalp.membership.models.entities.MembershipRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.events.MembershipRequestCreatedEvent;
+import org.ozalp.utils.consts.EventConst;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ public class MembershipRequestImpl implements MembershipRequestService {
     private final UserOrganizationMapper mapper;
     private final OrganizationClient organizationClient;
     private final UserProfileClient userProfileClient;
+    private final KafkaTemplate<String, MembershipRequestCreatedEvent> kafkaTemplate;
 
     @Override
     public MembershipRequest findById(int id) {
@@ -51,6 +55,8 @@ public class MembershipRequestImpl implements MembershipRequestService {
         MembershipRequestResponse response = mapper.toResponse(repository.save(membershipRequest));
         response.setOrganization(organization);
         response.setUserProfile(userProfile);
+
+        kafkaTemplate.send(EventConst.Topics.CREATED_MEMBERSHIP, new MembershipRequestCreatedEvent(userProfile.getEmail(), organization.getName()));
         return response;
     }
 }

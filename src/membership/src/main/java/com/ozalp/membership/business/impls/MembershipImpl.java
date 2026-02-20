@@ -13,6 +13,9 @@ import com.ozalp.membership.models.entities.Membership;
 import com.ozalp.membership.models.enums.MembershipStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.events.MembershipCreatedEvent;
+import org.ozalp.utils.consts.EventConst;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +26,7 @@ public class MembershipImpl implements MembershipService {
     private final MembershipMapper mapper;
     private final OrganizationClient organizationClient;
     private final UserProfileClient userProfileClient;
+    private final KafkaTemplate<String, MembershipCreatedEvent> kafkaTemplate;
 
     @Override
     public Membership findById(int id) {
@@ -54,6 +58,8 @@ public class MembershipImpl implements MembershipService {
         response.setMembershipStatus(MembershipStatus.ACTIVE);
         response.setOrganization(organization);
         response.setUserProfile(userProfile);
+
+        kafkaTemplate.send(EventConst.Topics.CREATED_MEMBERSHIP, new MembershipCreatedEvent(userProfile.getEmail(), organization.getName()));
         return response;
     }
 }

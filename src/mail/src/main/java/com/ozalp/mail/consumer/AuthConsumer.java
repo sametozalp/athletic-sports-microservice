@@ -3,6 +3,7 @@ package com.ozalp.mail.consumer;
 import com.ozalp.mail.services.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.UserCreatedEvent;
+import org.ozalp.utils.consts.EventConst;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public class AuthConsumer {
 
     private final EmailService emailService;
 
-    @KafkaListener(groupId = "mail", topics = "created-user-profile")
+    @KafkaListener(groupId = EventConst.GROUP_ID, topics = EventConst.Topics.CREATED_USER_PROFILE)
     public void createdAuth(UserCreatedEvent userCreatedEvent) {
 
         String subject = "Created Account";

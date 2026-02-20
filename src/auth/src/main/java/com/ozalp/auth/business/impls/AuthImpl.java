@@ -10,6 +10,7 @@ import com.ozalp.auth.models.entities.UserProfile;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.UserCreatedEvent;
+import org.ozalp.utils.consts.EventConst;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +53,7 @@ public class AuthImpl implements AuthService {
         reqAuth.setUserProfile(profile);
 
         Auth saved = repository.save(reqAuth);
-        kafkaTemplate.send("created-user-profile", new UserCreatedEvent(saved.getEmail(), saved.getUsername()));
+        kafkaTemplate.send(EventConst.Topics.CREATED_USER_PROFILE, new UserCreatedEvent(saved.getEmail(), saved.getUsername()));
         return mapper.toResponse(saved);
     }
 }

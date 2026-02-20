@@ -11,6 +11,7 @@ import com.ozalp.training.models.entities.TrainingProgram;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.TrainingProgramCreatedEvent;
+import org.ozalp.utils.consts.EventConst;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +56,7 @@ public class TrainingProgramImpl implements TrainingProgramService {
         response.setAthlete(athlete);
         response.setCoach(coach);
 
-        kafkaTemplate.send("created-training-program", new TrainingProgramCreatedEvent(athlete.getEmail(), trainingProgram.getId()));
+        kafkaTemplate.send(EventConst.Topics.CREATED_TRAINING_PROGRAM, new TrainingProgramCreatedEvent(athlete.getEmail(), trainingProgram.getId()));
         return response;
     }
 }
