@@ -4,11 +4,12 @@ import com.ozalp.motivation_sentence.business.dtos.CreateMotivationSentenceReque
 import com.ozalp.motivation_sentence.business.services.MotivationSentenceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.utils.consts.ApiConst;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/motivationSentence")
+@RequestMapping(ApiConst.ApiPath.MOTIVATION_SENTENCE)
 @RequiredArgsConstructor
 public class MotivationSentenceController {
 

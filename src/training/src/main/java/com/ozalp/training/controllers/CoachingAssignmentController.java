@@ -4,12 +4,13 @@ import com.ozalp.training.business.dtos.requests.CreateCoachingAssignmentRequest
 import com.ozalp.training.business.services.CoachingAssignmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.utils.consts.ApiConst;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/coachingAssignment")
+@RequestMapping(ApiConst.ApiPath.COACHING_ASSIGNMENT)
 @RequiredArgsConstructor
 public class CoachingAssignmentController {
 

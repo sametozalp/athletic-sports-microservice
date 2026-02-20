@@ -4,6 +4,7 @@ import com.ozalp.membership.business.dtos.requests.CreateMembershipRequestReques
 import com.ozalp.membership.business.services.MembershipRequestService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.utils.consts.ApiConst;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/membershipRequest")
+@RequestMapping(ApiConst.ApiPath.MEMBERSHIP_REQUEST)
 public class MembershipRequestController {
 
     private final MembershipRequestService membershipRequestService;

@@ -4,12 +4,13 @@ import com.ozalp.auth.business.dtos.requests.UpdateProfileRequest;
 import com.ozalp.auth.business.services.UserProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.utils.consts.ApiConst;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/userProfile")
+@RequestMapping(ApiConst.ApiPath.USER_PROFILE)
 public class UserProfileController {
 
     private final UserProfileService userProfileService;

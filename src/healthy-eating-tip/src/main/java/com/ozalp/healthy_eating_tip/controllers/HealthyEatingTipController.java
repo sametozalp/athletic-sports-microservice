@@ -4,11 +4,12 @@ import com.ozalp.healthy_eating_tip.business.dtos.requests.CreateHealthyEatingTi
 import com.ozalp.healthy_eating_tip.business.services.HealthyEatingTipService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.utils.consts.ApiConst;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/healthyEatingTip")
+@RequestMapping(ApiConst.ApiPath.HEALTHY_EATING_TIP)
 @RequiredArgsConstructor
 public class HealthyEatingTipController {
 

@@ -4,11 +4,12 @@ import com.ozalp.organization.business.dtos.requests.CreateOrganizationRequest;
 import com.ozalp.organization.business.services.OrganizationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.utils.consts.ApiConst;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/organization")
+@RequestMapping(ApiConst.ApiPath.ORGANIZATION)
 @RequiredArgsConstructor
 public class OrganizationController {
 
