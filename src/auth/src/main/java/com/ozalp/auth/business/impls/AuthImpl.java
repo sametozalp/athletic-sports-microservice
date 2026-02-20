@@ -9,6 +9,8 @@ import com.ozalp.auth.models.entities.Auth;
 import com.ozalp.auth.models.entities.UserProfile;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.events.UserCreatedEvent;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ public class AuthImpl implements AuthService {
     private final AuthRepository repository;
     //    private final AuthValidation validation;
     private final AuthMapper mapper;
+    private final KafkaTemplate<String, UserCreatedEvent> kafkaTemplate;
 
     @Override
     public Auth findById(int id) {
@@ -49,6 +52,7 @@ public class AuthImpl implements AuthService {
         reqAuth.setUserProfile(profile);
 
         Auth saved = repository.save(reqAuth);
+        kafkaTemplate.send("created-user-profile", new UserCreatedEvent(saved.getEmail(), saved.getUsername()));
         return mapper.toResponse(saved);
     }
 }
