@@ -10,6 +10,8 @@ import com.ozalp.training.dataAccess.TrainingProgramRepository;
 import com.ozalp.training.models.entities.TrainingProgram;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.events.TrainingProgramCreatedEvent;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ public class TrainingProgramImpl implements TrainingProgramService {
     private final TrainingProgramRepository repository;
     private final TrainingProgramMapper mapper;
     private final UserProfileClient userProfileClient;
+    private final KafkaTemplate<String, TrainingProgramCreatedEvent> kafkaTemplate;
 
     @Override
     public TrainingProgram findById(int id) {
@@ -51,6 +54,8 @@ public class TrainingProgramImpl implements TrainingProgramService {
         TrainingProgramResponse response = mapper.toResponse(repository.save(trainingProgram));
         response.setAthlete(athlete);
         response.setCoach(coach);
+
+        kafkaTemplate.send("created-training-program", new TrainingProgramCreatedEvent(athlete.getEmail(), trainingProgram.getId()));
         return response;
     }
 }
