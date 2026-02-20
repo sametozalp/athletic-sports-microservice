@@ -1,6 +1,7 @@
-package com.ozalp.membership.business.services;
+package org.ozalp.services;
 
-import com.ozalp.membership.models.entities.BaseEntity;
+
+import org.ozalp.models.entites.BaseEntity;
 
 public interface BaseService<T extends BaseEntity> {
 

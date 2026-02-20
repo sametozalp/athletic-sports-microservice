@@ -1,4 +1,4 @@
-package com.ozalp.training.models.entities;
+package org.ozalp.models.entites;
 
 import jakarta.persistence.*;
 import lombok.Getter;

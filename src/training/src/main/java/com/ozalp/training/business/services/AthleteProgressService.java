@@ -4,6 +4,7 @@ package com.ozalp.training.business.services;
 import com.ozalp.training.business.dtos.requests.CreateAthleteProgressRequest;
 import com.ozalp.training.business.dtos.responses.AthleteProgressResponse;
 import com.ozalp.training.models.entities.AthleteProgress;
+import org.ozalp.services.BaseService;
 
 import java.util.List;
 

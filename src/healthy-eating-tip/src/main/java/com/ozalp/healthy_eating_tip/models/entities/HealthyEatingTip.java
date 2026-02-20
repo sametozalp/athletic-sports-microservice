@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.ozalp.models.entites.BaseEntity;
 
 @Entity
 @Table(name = "healthy_eating_tips")

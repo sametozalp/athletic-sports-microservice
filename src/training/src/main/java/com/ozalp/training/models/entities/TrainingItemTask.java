@@ -3,6 +3,7 @@ package com.ozalp.training.models.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.ozalp.models.entites.BaseEntity;
 
 import java.time.LocalDate;
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.ozalp.models.entites.BaseEntity;
 
 @Entity
 @Table(name = "user_roles")
