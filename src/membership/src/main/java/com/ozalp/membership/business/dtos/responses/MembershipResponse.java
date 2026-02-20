@@ -19,6 +19,4 @@ public class MembershipResponse {
     private LocalDateTime joined_at;
 
     private LocalDateTime left_at;
-
-    private MembershipStatus membershipStatus;
 }

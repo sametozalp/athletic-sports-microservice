@@ -52,11 +52,8 @@ public class MembershipRequestImpl implements MembershipRequestService {
         MembershipRequest membershipRequest = mapper.toEntity(request);
         Organization organization = organizationClient.getOrganizationDetail(request.getOrganizationId());
         UserProfile userProfile = userProfileClient.getProfileDetail(request.getUserProfileId());
-        MembershipRequestResponse response = mapper.toResponse(repository.save(membershipRequest));
-        response.setOrganization(organization);
-        response.setUserProfile(userProfile);
 
         kafkaTemplate.send(EventConst.Topics.CREATED_MEMBERSHIP, new MembershipRequestCreatedEvent(userProfile.getEmail(), organization.getName()));
-        return response;
+        return mapper.toResponse(repository.save(membershipRequest), organization, userProfile);
     }
 }

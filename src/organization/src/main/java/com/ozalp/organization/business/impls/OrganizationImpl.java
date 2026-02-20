@@ -47,19 +47,15 @@ public class OrganizationImpl implements OrganizationService {
         UserProfile owner = userProfileClient.getProfileDetail(request.getOwnerUserProfileId());
         Organization organization = mapper.toEntity(request);
         organization.setOwnerUserProfileId(owner.getId());
-        OrganizationResponse response = mapper.toResponse(repository.save(organization));
-        response.setOwner(owner);
 
         kafkaTemplate.send(EventConst.Topics.CREATED_ORGANIZATION, new OrganizationCreatedEvent(owner.getEmail(), organization.getName()));
-        return response;
+        return mapper.toResponse(repository.save(organization), owner);
     }
 
     @Override
     public OrganizationResponse getOrganizationDetail(int id) {
         Organization organization = repository.findById(id).orElseThrow();
-        UserProfile userProfile = userProfileClient.getProfileDetail(organization.getOwnerUserProfileId());
-        OrganizationResponse response = mapper.toResponse(organization);
-        response.setOwner(userProfile);
-        return response;
+        UserProfile owner = userProfileClient.getProfileDetail(organization.getOwnerUserProfileId());
+        return mapper.toResponse(organization, owner);
     }
 }
