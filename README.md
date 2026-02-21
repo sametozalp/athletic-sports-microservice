@@ -136,6 +136,47 @@ CREATE DATABASE as_motivation_sentence;
 ### **Kafka Setup**
 Ensure Kafka is running on localhost:9092 for inter-service communication.
 
+### **Running Services in Production Mode**
+
+To run services with production configuration:
+
+1. **Set Environment Variables** (example for Linux/Mac):
+   ```bash
+   export DB_HOST="jdbc:postgresql://your-prod-db-host:5432/as_auth"
+   export DB_USERNAME="your_db_user"
+   export DB_PASSWORD="your_secure_password"
+   export KAFKA_HOST="your-kafka-cluster:9092"
+   export EUREKA_HOST="http://your-eureka-server:8082/eureka"
+   export EUREKA_BASE_HOST="your-eureka-server"
+   export USER_PROFILE_CLIENT_URL="http://your-auth-service:8081"
+   export ORGANIZATION_CLIENT_URL="http://your-organization-service:8086"
+   ```
+
+2. **Run Services with Production Profile**:
+   ```bash
+   # Auth Service (Production)
+   cd src/auth
+   mvn spring-boot:run -Dspring-boot.run.profiles=prod
+   
+   # Training Service (Production)
+   cd src/training
+   mvn spring-boot:run -Dspring-boot.run.profiles=prod
+   
+   # Other services follow the same pattern
+   ```
+
+3. **Using Docker Compose** (recommended for production):
+   ```yaml
+   # Example docker-compose.yml snippet
+   environment:
+     - SPRING_PROFILES_ACTIVE=prod
+     - DB_HOST=jdbc:postgresql://postgres:5432/as_auth
+     - DB_USERNAME=${DB_USERNAME}
+     - DB_PASSWORD=${DB_PASSWORD}
+     - KAFKA_HOST=kafka:9092
+     - EUREKA_HOST=http://eureka-server:8082/eureka
+   ```
+
 ## 📡 API Documentation
 
 Once all services are running, you can access the API documentation:
@@ -199,6 +240,27 @@ athletic-sports-microservice/
 
 ## 🔧 Configuration
 
+### **Environment Profiles**
+The project supports multiple environment profiles:
+
+#### **Development Environment**
+- Uses `application.yaml` files in each service
+- Local database connections (localhost:5432)
+- Local Kafka connection (localhost:9092)
+- Hardcoded service URLs for inter-service communication
+
+#### **Production Environment**
+- Uses `application-prod.yaml` files in each service
+- **Environment Variables** for configuration:
+  - `DB_HOST` - Database connection URL
+  - `DB_USERNAME` - Database username
+  - `DB_PASSWORD` - Database password
+  - `KAFKA_HOST` - Kafka bootstrap servers
+  - `EUREKA_HOST` - Eureka server URL
+  - `EUREKA_BASE_HOST` - Eureka server hostname
+  - `USER_PROFILE_CLIENT_URL` - Auth service URL for client calls
+  - `ORGANIZATION_CLIENT_URL` - Organization service URL for client calls
+
 ### **Service Ports**
 - API Gateway: 8080
 - Auth Service: 8081
@@ -212,5 +274,11 @@ athletic-sports-microservice/
 
 ### **Database Configuration**
 Each service connects to its own PostgreSQL database:
+
+**Development:**
 - URL pattern: `jdbc:postgresql://localhost:5432/as_{service_name}`
 - Default credentials: `postgres/123456` (change for production)
+
+**Production:**
+- Configured via `DB_HOST`, `DB_USERNAME`, `DB_PASSWORD` environment variables
+- Supports any PostgreSQL-compatible database hosting
