@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ozalp</groupId>
-	<artifactId>authResponse</artifactId>
+	<artifactId>auth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>authResponse</name>
+	<name>auth</name>
 	<description>Athletic Sports</description>
 	<url/>
 	<licenses>

@@ -10,6 +10,16 @@
     <packaging>pom</packaging>
     <modules>
         <module>core</module>
+        <module>src/auth</module>
+        <module>src/api-gateway</module>
+        <module>src/eureka-server</module>
+        <module>src/training</module>
+        <module>src/organization</module>
+        <module>src/membership</module>
+        <module>src/mail</module>
+        <module>src/healthy-eating-tip</module>
+        <module>src/motivation-sentence</module>
+
     </modules>
 
     <properties>

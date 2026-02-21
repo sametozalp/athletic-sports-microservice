@@ -3,7 +3,7 @@ spring:
     name: mail
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_HOST}
     consumer:
       group-id: mail
       auto-offset-reset: earliest
@@ -15,7 +15,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sametozalp01@gmail.com
+    username: ${MAIL_EMAIL}
     password: ${MAIL_PASSWORD}
     properties:
       mail:
@@ -30,4 +30,4 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8082/eureka
+      defaultZone: ${EUREKA_HOST}

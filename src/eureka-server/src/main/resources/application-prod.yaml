@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  instance:
+    hostname: ${EUREKA_BASE_HOST} # only localhost
+  client:
+    register-with-eureka: false # save yourself as eureka server ?
+    fetch-registry: false # take service list from other service
+
+server:
+  port: 8082
