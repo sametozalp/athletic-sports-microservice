@@ -8,6 +8,3 @@ eureka:
   client:
     register-with-eureka: false # save yourself as eureka server ?
     fetch-registry: false # take service list from other service
-
-server:
-  port: 8082

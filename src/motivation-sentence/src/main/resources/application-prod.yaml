@@ -19,9 +19,6 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
-server:
-  port: 8086
-
 eureka:
   client:
     service-url:

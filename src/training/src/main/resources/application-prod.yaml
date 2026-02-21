@@ -25,9 +25,6 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
-server:
-  port: 8088
-
 userProfileClientUrl: ${USER_PROFILE_CLIENT_URL}
 organizationClientUrl: ${ORGANIZATION_CLIENT_URL}
 
