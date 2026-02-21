@@ -10,4 +10,4 @@ eureka:
     fetch-registry: false # take service list from other service
 
 server:
-  port: 8761
+  port: 8082
