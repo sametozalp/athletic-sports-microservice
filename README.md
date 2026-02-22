@@ -10,6 +10,7 @@ This project follows a microservices architecture pattern with the following cor
 
 | Service | Port | Description |
 |---------|------|-------------|
+| **Config Server** | 8888 | Centralized configuration management with Git backend |
 | **API Gateway** | 8080 | Central entry point for all client requests with routing and load balancing |
 | **Eureka Server** | 8082 | Service discovery and registration |
 | **Auth Service** | 8081 | Authentication, authorization, and user management |
@@ -24,8 +25,9 @@ This project follows a microservices architecture pattern with the following cor
 
 ### **Backend Technologies**
 - **Java 21** - Latest Java LTS version with modern features
-- **Spring Boot 3.5.9** - Modern Spring framework for microservices
+- **Spring Boot 3.5.9/4.0.3** - Modern Spring framework for microservices
 - **Spring Cloud** - Microservices infrastructure components
+- **Spring Cloud Config Server** - Centralized configuration management
 - **Spring Data JPA** - Database abstraction layer
 - **Spring Security** - Authentication and authorization
 - **Spring Kafka** - Event-driven communication
@@ -97,19 +99,25 @@ CREATE DATABASE as_motivation_sentence;
 
 ### **Running the Services**
 
-1. **Start Eureka Server** (Service Discovery)
+1. **Start Config Server** (Configuration Management)
+   ```bash
+   cd src/config-server
+   mvn spring-boot:run
+   ```
+
+2. **Start Eureka Server** (Service Discovery)
    ```bash
    cd src/eureka-server
    mvn spring-boot:run
    ```
 
-2. **Start API Gateway** (Port 8080)
+3. **Start API Gateway** (Port 8080)
    ```bash
    cd src/api-gateway
    mvn spring-boot:run
    ```
 
-3. **Start Core Services** (in parallel)
+4. **Start Core Services** (in parallel)
    ```bash
    # Auth Service (Port 8081)
    cd src/auth && mvn spring-boot:run
@@ -226,6 +234,7 @@ athletic-sports-microservice/
 │       └── utils/                # Constants and utilities
 ├── src/
 │   ├── api-gateway/              # Spring Cloud Gateway
+│   ├── config-server/            # Spring Cloud Config Server
 │   ├── eureka-server/            # Service discovery
 │   ├── auth/                     # Authentication service
 │   ├── training/                 # Training management
@@ -262,6 +271,7 @@ The project supports multiple environment profiles:
   - `ORGANIZATION_CLIENT_URL` - Organization service URL for client calls
 
 ### **Service Ports**
+- Config Server: 8888
 - API Gateway: 8080
 - Auth Service: 8081
 - Healthy Eating Tip: 8083
@@ -282,3 +292,40 @@ Each service connects to its own PostgreSQL database:
 **Production:**
 - Configured via `DB_HOST`, `DB_USERNAME`, `DB_PASSWORD` environment variables
 - Supports any PostgreSQL-compatible database hosting
+
+### **Spring Cloud Config Server**
+The platform includes a centralized configuration management service:
+
+- **Git Backend**: Configuration files are stored in a Git repository (`https://github.com/sametozalp/athletic-sports-config.git`)
+- **Environment-based Configuration**: Supports different configurations for dev/prod environments
+- **Dynamic Updates**: Configuration changes can be updated without service restarts
+- **Security**: Git repository access is secured with authentication tokens (`GIT_KEY` environment variable)
+
+### **Docker Support**
+Each microservice includes a Dockerfile for containerization:
+
+```dockerfile
+FROM eclipse-temurin:21-jdk-alpine
+WORKDIR /app
+COPY target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
+```
+
+**Docker Benefits:**
+- **Lightweight Images**: Based on Alpine Linux for minimal size
+- **Java 21 Runtime**: Uses official Eclipse Temurin JDK
+- **Consistent Deployment**: Same container runs everywhere
+- **Easy Scaling**: Simple to orchestrate with Docker Compose or Kubernetes
+
+**Building Docker Images:**
+```bash
+# Build service
+cd src/auth
+mvn clean package
+
+# Build Docker image
+docker build -t athletic-sports/auth .
+
+# Run container
+docker run -p 8081:8080 athletic-sports/auth
