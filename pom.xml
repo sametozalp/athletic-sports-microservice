@@ -19,6 +19,7 @@
         <module>src/mail</module>
         <module>src/healthy-eating-tip</module>
         <module>src/motivation-sentence</module>
+        <module>src/config-server</module>
 
     </modules>
 

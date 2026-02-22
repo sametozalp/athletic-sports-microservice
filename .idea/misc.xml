@@ -18,6 +18,7 @@
         <option value="$PROJECT_DIR$/src/mail/pom.xml" />
         <option value="$PROJECT_DIR$/src/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/src/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/src/config-server/pom.xml" />
       </list>
     </option>
   </component>
