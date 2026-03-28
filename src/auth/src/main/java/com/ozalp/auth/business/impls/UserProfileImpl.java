@@ -6,33 +6,21 @@ import com.ozalp.auth.business.mappers.UserProfileMapper;
 import com.ozalp.auth.business.services.UserProfileService;
 import com.ozalp.auth.dataAccess.UserProfileRepository;
 import com.ozalp.auth.models.entities.UserProfile;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.managers.BaseImpl;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserProfileImpl implements UserProfileService {
+public class UserProfileImpl extends BaseImpl<UserProfile> implements UserProfileService {
 
     private final UserProfileRepository repository;
     private final UserProfileMapper mapper;
 
     @Override
-    public UserProfile findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User profile not found"));
-    }
-
-    @Override
-    public UserProfile save(UserProfile userProfile) {
-        return repository.save(userProfile);
-    }
-
-    @Override
-    public void delete(int id) {
-        UserProfile userProfile = findById(id);
-        userProfile.markAsDelete();
-        repository.save(userProfile);
+    protected JpaRepository<UserProfile, Integer> getRepository() {
+        return repository;
     }
 
     @Override

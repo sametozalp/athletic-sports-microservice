@@ -12,6 +12,8 @@ import com.ozalp.training.models.entities.AthleteProgress;
 import com.ozalp.training.models.entities.TrainingItemTask;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.managers.BaseImpl;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,7 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AthleteProgressImpl implements AthleteProgressService {
+public class AthleteProgressImpl extends BaseImpl<AthleteProgress> implements AthleteProgressService {
 
     private final AthleteProgressRepository repository;
     private final AthleteProgressMapper mapper;
@@ -27,21 +29,8 @@ public class AthleteProgressImpl implements AthleteProgressService {
     private final OrganizationClient organizationClient;
 
     @Override
-    public AthleteProgress findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Athlete progress not found"));
-    }
-
-    @Override
-    public AthleteProgress save(AthleteProgress athleteProgress) {
-        return repository.save(athleteProgress);
-    }
-
-    @Override
-    public void delete(int id) {
-        AthleteProgress athleteProgress = findById(id);
-        athleteProgress.markAsDelete();
-        repository.save(athleteProgress);
+    protected JpaRepository<AthleteProgress, Integer> getRepository() {
+        return repository;
     }
 
     @Override

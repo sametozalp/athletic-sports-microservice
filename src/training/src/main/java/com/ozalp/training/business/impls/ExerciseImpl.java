@@ -8,31 +8,20 @@ import com.ozalp.training.dataAccess.ExerciseRepository;
 import com.ozalp.training.models.entities.Exercise;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.managers.BaseImpl;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ExerciseImpl implements ExerciseService {
+public class ExerciseImpl extends BaseImpl<Exercise> implements ExerciseService {
 
     private final ExerciseRepository repository;
     private final ExerciseMapper mapper;
 
     @Override
-    public Exercise findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Exercise not found"));
-    }
-
-    @Override
-    public Exercise save(Exercise exercise) {
-        return null;
-    }
-
-    @Override
-    public void delete(int id) {
-        Exercise exercise = findById(id);
-        exercise.markAsDelete();
-        repository.save(exercise);
+    protected JpaRepository<Exercise, Integer> getRepository() {
+        return repository;
     }
 
     @Override

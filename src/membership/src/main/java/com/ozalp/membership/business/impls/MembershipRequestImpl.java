@@ -13,14 +13,16 @@ import com.ozalp.membership.models.entities.MembershipRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.MembershipRequestCreatedEvent;
+import org.ozalp.managers.BaseImpl;
 import org.ozalp.utils.consts.EventConst;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class MembershipRequestImpl implements MembershipRequestService {
+public class MembershipRequestImpl extends BaseImpl<MembershipRequest> implements MembershipRequestService {
 
     private final MembershipRequestRepository repository;
     private final UserOrganizationMapper mapper;
@@ -29,21 +31,8 @@ public class MembershipRequestImpl implements MembershipRequestService {
     private final KafkaTemplate<String, MembershipRequestCreatedEvent> kafkaTemplate;
 
     @Override
-    public MembershipRequest findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User organization not found"));
-    }
-
-    @Override
-    public MembershipRequest save(MembershipRequest membershipRequest) {
-        return repository.save(membershipRequest);
-    }
-
-    @Override
-    public void delete(int id) {
-        MembershipRequest membershipRequest = findById(id);
-        membershipRequest.markAsDelete();
-        repository.save(membershipRequest);
+    protected JpaRepository<MembershipRequest, Integer> getRepository() {
+        return repository;
     }
 
     @Override

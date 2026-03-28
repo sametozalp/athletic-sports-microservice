@@ -12,38 +12,22 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.QuickStartEvent;
 import org.ozalp.events.UserCreatedEvent;
+import org.ozalp.managers.BaseImpl;
 import org.ozalp.utils.consts.EventConst;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthImpl implements AuthService {
+public class AuthImpl extends BaseImpl<Auth> implements AuthService {
 
     private final AuthRepository repository;
     //    private final AuthValidation validation;
     private final AuthMapper mapper;
     private final KafkaTemplate<String, UserCreatedEvent> kafkaTemplate;
     private final KafkaTemplate<String, QuickStartEvent> quickStartKafkaTemplate;
-
-    @Override
-    public Auth findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-    }
-
-    @Override
-    public Auth save(Auth auth) {
-        return repository.save(auth);
-    }
-
-    @Override
-    public void delete(int id) {
-        Auth auth = findById(id);
-        auth.markAsDelete();
-        repository.save(auth);
-    }
 
     @Transactional
     @Override
@@ -90,5 +74,10 @@ public class AuthImpl implements AuthService {
 
             repository.save(auth);
         }
+    }
+
+    @Override
+    protected JpaRepository<Auth, Integer> getRepository() {
+        return repository;
     }
 }

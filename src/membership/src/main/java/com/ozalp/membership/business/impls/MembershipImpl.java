@@ -10,11 +10,11 @@ import com.ozalp.membership.clients.OrganizationClient;
 import com.ozalp.membership.clients.UserProfileClient;
 import com.ozalp.membership.dataAccess.MembershipRepository;
 import com.ozalp.membership.models.entities.Membership;
-import com.ozalp.membership.models.enums.MembershipStatus;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.MembershipCreatedEvent;
+import org.ozalp.managers.BaseImpl;
 import org.ozalp.utils.consts.EventConst;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class MembershipImpl implements MembershipService {
+public class MembershipImpl extends BaseImpl<Membership> implements MembershipService {
 
     private final MembershipRepository repository;
     private final MembershipMapper mapper;
@@ -31,21 +31,8 @@ public class MembershipImpl implements MembershipService {
     private final KafkaTemplate<String, MembershipCreatedEvent> kafkaTemplate;
 
     @Override
-    public Membership findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Membership not found"));
-    }
-
-    @Override
-    public Membership save(Membership membership) {
-        return repository.save(membership);
-    }
-
-    @Override
-    public void delete(int id) {
-        Membership membership = findById(id);
-        membership.markAsDelete();
-        repository.save(membership);
+    protected JpaRepository<Membership, Integer> getRepository() {
+        return repository;
     }
 
     @Override

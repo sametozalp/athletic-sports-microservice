@@ -11,14 +11,15 @@ import com.ozalp.training.models.entities.AthleteProgress;
 import com.ozalp.training.models.entities.MealItemTask;
 import com.ozalp.training.models.entities.TrainingProgram;
 import com.ozalp.training.models.enums.AthleteProgressStatus;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.managers.BaseImpl;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class MealItemItemImpl implements MealItemService {
+public class MealItemTaskImpl extends BaseImpl<MealItemTask> implements MealItemService {
 
     private final MealItemRepository repository;
     private final MealItemMapper mapper;
@@ -26,21 +27,8 @@ public class MealItemItemImpl implements MealItemService {
     private final AthleteProgressService athleteProgressService;
 
     @Override
-    public MealItemTask findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Meal item not found"));
-    }
-
-    @Override
-    public MealItemTask save(MealItemTask mealItemTask) {
-        return repository.save(mealItemTask);
-    }
-
-    @Override
-    public void delete(int id) {
-        MealItemTask mealItemTask = findById(id);
-        mealItemTask.markAsDelete();
-        repository.save(mealItemTask);
+    protected JpaRepository<MealItemTask, Integer> getRepository() {
+        return repository;
     }
 
     @Transactional

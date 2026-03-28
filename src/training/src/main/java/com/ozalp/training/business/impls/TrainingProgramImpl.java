@@ -8,17 +8,18 @@ import com.ozalp.training.business.services.TrainingProgramService;
 import com.ozalp.training.clients.UserProfileClient;
 import com.ozalp.training.dataAccess.TrainingProgramRepository;
 import com.ozalp.training.models.entities.TrainingProgram;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.TrainingProgramCreatedEvent;
+import org.ozalp.managers.BaseImpl;
 import org.ozalp.utils.consts.EventConst;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class TrainingProgramImpl implements TrainingProgramService {
+public class TrainingProgramImpl extends BaseImpl<TrainingProgram> implements TrainingProgramService {
 
     private final TrainingProgramRepository repository;
     private final TrainingProgramMapper mapper;
@@ -26,21 +27,8 @@ public class TrainingProgramImpl implements TrainingProgramService {
     private final KafkaTemplate<String, TrainingProgramCreatedEvent> kafkaTemplate;
 
     @Override
-    public TrainingProgram findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Training program not found"));
-    }
-
-    @Override
-    public TrainingProgram save(TrainingProgram trainingProgram) {
-        return repository.save(trainingProgram);
-    }
-
-    @Override
-    public void delete(int id) {
-        TrainingProgram trainingProgram = findById(id);
-        trainingProgram.markAsDelete();
-        repository.save(trainingProgram);
+    protected JpaRepository<TrainingProgram, Integer> getRepository() {
+        return repository;
     }
 
     @Override

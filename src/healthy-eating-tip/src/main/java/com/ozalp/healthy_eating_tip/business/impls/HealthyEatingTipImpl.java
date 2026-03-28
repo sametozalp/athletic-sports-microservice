@@ -5,35 +5,23 @@ import com.ozalp.healthy_eating_tip.business.dtos.responses.HealthyEatingTipResp
 import com.ozalp.healthy_eating_tip.business.services.HealthyEatingTipService;
 import com.ozalp.healthy_eating_tip.dataAccess.HealthyEatingTipRepository;
 import com.ozalp.healthy_eating_tip.models.entities.HealthyEatingTip;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.managers.BaseImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class HealthyEatingTipImpl implements HealthyEatingTipService {
+public class HealthyEatingTipImpl extends BaseImpl<HealthyEatingTip> implements HealthyEatingTipService {
 
     private final HealthyEatingTipRepository repository;
 
     @Override
-    public HealthyEatingTip findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Healthy eating tip not found"));
-    }
-
-    @Override
-    public HealthyEatingTip save(HealthyEatingTip healthyEatingTip) {
-        return repository.save(healthyEatingTip);
-    }
-
-    @Override
-    public void delete(int id) {
-        HealthyEatingTip healthyEatingTip = findById(id);
-        healthyEatingTip.markAsDelete();
-        repository.save(healthyEatingTip);
+    protected JpaRepository<HealthyEatingTip, Integer> getRepository() {
+        return repository;
     }
 
     @Override

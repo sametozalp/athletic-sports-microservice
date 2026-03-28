@@ -8,34 +8,22 @@ import com.ozalp.auth.dataAccess.UserRoleRepository;
 import com.ozalp.auth.models.entities.Role;
 import com.ozalp.auth.models.entities.UserProfile;
 import com.ozalp.auth.models.entities.UserRole;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.ozalp.managers.BaseImpl;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserRoleImpl implements UserRoleService {
+public class UserRoleImpl extends BaseImpl<UserRole> implements UserRoleService {
 
     private final UserRoleRepository repository;
     private final RoleService roleService;
     private final UserProfileService userProfileService;
 
     @Override
-    public UserRole findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User Role not found"));
-    }
-
-    @Override
-    public UserRole save(UserRole userRole) {
-        return repository.save(userRole);
-    }
-
-    @Override
-    public void delete(int id) {
-        UserRole userRole = findById(id);
-        userRole.markAsDelete();
-        repository.save(userRole);
+    protected JpaRepository<UserRole, Integer> getRepository() {
+        return repository;
     }
 
     @Override

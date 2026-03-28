@@ -9,16 +9,17 @@ import com.ozalp.organization.clients.UserProfileClient;
 import com.ozalp.organization.dataAccess.OrganizationRepository;
 import com.ozalp.organization.models.entities.Organization;
 import com.ozalp.organization.models.enums.OrganizationStatus;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.OrganizationCreatedEvent;
+import org.ozalp.managers.BaseImpl;
 import org.ozalp.utils.consts.EventConst;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrganizationImpl implements OrganizationService {
+public class OrganizationImpl extends BaseImpl<Organization> implements OrganizationService {
 
     private final OrganizationRepository repository;
     private final OrganizationMapper mapper;
@@ -26,21 +27,8 @@ public class OrganizationImpl implements OrganizationService {
     private final KafkaTemplate<String, OrganizationCreatedEvent> kafkaTemplate;
 
     @Override
-    public Organization findById(int id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Organization not found"));
-    }
-
-    @Override
-    public Organization save(Organization organization) {
-        return repository.save(organization);
-    }
-
-    @Override
-    public void delete(int id) {
-        Organization organization = findById(id);
-        organization.markAsDelete();
-        repository.save(organization);
+    protected JpaRepository<Organization, Integer> getRepository() {
+        return repository;
     }
 
     @Override
