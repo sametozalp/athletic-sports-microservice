@@ -24,12 +24,18 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: true
 
 server:
   port: 8085
 
 userProfileClientUrl: http://localhost:8081
-organizationClientUrl: http://localhost:8086
+organizationClientUrl: http://localhost:8087
 
 eureka:
   client:

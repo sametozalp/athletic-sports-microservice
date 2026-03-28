@@ -13,7 +13,7 @@ public class MembershipRequestConsumer {
 
     private final EmailService emailService;
 
-    @KafkaListener(groupId = EventConst.GROUP_ID, topics = EventConst.Topics.CREATED_MEMBERSHIP)
+    @KafkaListener(groupId = EventConst.MAIL_GROUP_ID, topics = EventConst.Topics.CREATED_MEMBERSHIP)
     public void createdMembershipRequest(MembershipRequestCreatedEvent membershipRequestCreatedEvent) {
         String sub = "Request Sent";
         String message = "Organization name: " + membershipRequestCreatedEvent.getOrganizationName();

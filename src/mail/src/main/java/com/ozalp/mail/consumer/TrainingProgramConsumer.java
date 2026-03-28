@@ -13,7 +13,7 @@ public class TrainingProgramConsumer {
 
     private final EmailService emailService;
 
-    @KafkaListener(groupId = EventConst.GROUP_ID, topics = EventConst.Topics.CREATED_TRAINING_PROGRAM)
+    @KafkaListener(groupId = EventConst.MAIL_GROUP_ID, topics = EventConst.Topics.CREATED_TRAINING_PROGRAM)
     public void createdTrainingProgram(TrainingProgramCreatedEvent trainingProgramCreatedEvent) {
         String sub = "Created Program";
         String message = "Program Id: " + trainingProgramCreatedEvent.getTrainingProgramId();

@@ -22,7 +22,7 @@ public class UserProfileController {
     }
 
     @GetMapping(ApiParams.UserProfile.GET_PROFILE_DETAIL)
-    ResponseEntity<?> findById(@PathVariable int id) {
+    ResponseEntity<?> getDetail(@PathVariable int id) {
         return ResponseEntity.ok(userProfileService.getProfileDetail(id));
     }
 }

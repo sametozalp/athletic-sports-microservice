@@ -18,6 +18,8 @@ import org.ozalp.utils.consts.EventConst;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class MembershipImpl implements MembershipService {
@@ -54,8 +56,10 @@ public class MembershipImpl implements MembershipService {
         Membership membership = mapper.toEntity(request);
         membership.setOrganizationId(organization.getId());
         membership.setUserProfileId(userProfile.getId());
+        membership.setJoinedAt(LocalDateTime.now());
 
+        Membership savedMembership = repository.save(membership);
         kafkaTemplate.send(EventConst.Topics.CREATED_MEMBERSHIP, new MembershipCreatedEvent(userProfile.getEmail(), organization.getName()));
-        return  mapper.toResponse(repository.save(membership), organization, userProfile);
+        return mapper.toResponse(savedMembership, organization, userProfile);
     }
 }

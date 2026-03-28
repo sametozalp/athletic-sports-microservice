@@ -13,7 +13,7 @@ public class MembershipConsumer {
 
     private final EmailService emailService;
 
-    @KafkaListener(groupId = EventConst.GROUP_ID, topics = EventConst.Topics.CREATED_MEMBERSHIP)
+    @KafkaListener(groupId = EventConst.MAIL_GROUP_ID, topics = EventConst.Topics.CREATED_MEMBERSHIP)
     public void createdMembership(MembershipCreatedEvent membershipCreatedEvent) {
         String sub = "Membership Accepted";
         String message = "Organization name: " + membershipCreatedEvent.getOrganizationName();

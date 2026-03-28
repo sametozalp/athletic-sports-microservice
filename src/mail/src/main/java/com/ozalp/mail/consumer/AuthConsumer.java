@@ -13,8 +13,8 @@ public class AuthConsumer {
 
     private final EmailService emailService;
 
-    @KafkaListener(groupId = EventConst.GROUP_ID, topics = EventConst.Topics.CREATED_USER_PROFILE)
-    public void createdAuth(UserCreatedEvent userCreatedEvent) {
+    @KafkaListener(groupId = EventConst.MAIL_GROUP_ID, topics = EventConst.Topics.CREATED_USER_PROFILE)
+    public void createAuth(UserCreatedEvent userCreatedEvent) {
 
         String subject = "Created Account";
 

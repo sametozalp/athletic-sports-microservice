@@ -25,10 +25,10 @@ public class Membership extends BaseEntity {
     private int userProfileId;
 
     @Column(nullable = false)
-    private LocalDateTime joined_at;
+    private LocalDateTime joinedAt;
 
     @Column
-    private LocalDateTime left_at;
+    private LocalDateTime leftAt;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

@@ -1,5 +1,6 @@
 package com.ozalp.auth.controllers;
 
+import com.ozalp.auth.business.dtos.requests.QuickStartRequest;
 import com.ozalp.auth.business.dtos.requests.RegisterRequest;
 import com.ozalp.auth.business.services.AuthService;
 import jakarta.validation.Valid;
@@ -22,5 +23,10 @@ public class AuthController {
     @PostMapping(ApiParams.Auth.REGISTER)
     ResponseEntity<?> register(@RequestBody @Valid RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
+    }
+
+    @PostMapping(ApiParams.Auth.QUICK_START)
+    ResponseEntity<?> quickStart(@RequestBody @Valid QuickStartRequest request) {
+        return ResponseEntity.ok(authService.quickStart(request));
     }
 }

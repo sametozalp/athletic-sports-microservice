@@ -5,7 +5,7 @@ public final class ApiParams {
     public final static class Auth {
 
         public final static String REGISTER = "/register";
-
+        public static final String QUICK_START = "/quickStart";
     }
 
     public final static class Role {

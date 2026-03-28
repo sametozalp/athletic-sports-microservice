@@ -13,7 +13,7 @@ public class OrganizationConsumer {
 
     private final EmailService emailService;
 
-    @KafkaListener(groupId = EventConst.GROUP_ID, topics = EventConst.Topics.CREATED_ORGANIZATION)
+    @KafkaListener(groupId = EventConst.MAIL_GROUP_ID, topics = EventConst.Topics.CREATED_ORGANIZATION)
     public void createdOrganization(OrganizationCreatedEvent organizationCreatedEvent) {
         String sub = "Created Organization: " + organizationCreatedEvent.getOrganizationName();
         String message = "Created Organization: " + organizationCreatedEvent.getOrganizationName();

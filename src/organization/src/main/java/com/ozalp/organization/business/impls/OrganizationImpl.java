@@ -8,6 +8,7 @@ import com.ozalp.organization.business.services.OrganizationService;
 import com.ozalp.organization.clients.UserProfileClient;
 import com.ozalp.organization.dataAccess.OrganizationRepository;
 import com.ozalp.organization.models.entities.Organization;
+import com.ozalp.organization.models.enums.OrganizationStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.ozalp.events.OrganizationCreatedEvent;
@@ -57,5 +58,15 @@ public class OrganizationImpl implements OrganizationService {
         Organization organization = repository.findById(id).orElseThrow();
         UserProfile owner = userProfileClient.getProfileDetail(organization.getOwnerUserProfileId());
         return mapper.toResponse(organization, owner);
+    }
+
+    @Override
+    public void createRootOrganization() {
+        if (!repository.existsByName("Test Organization")) {
+            UserProfile owner = userProfileClient.getProfileDetail(1);
+            Organization organization = new Organization(owner.getId(), "Test Organization", null, OrganizationStatus.ACTIVE);
+            organization.setOwnerUserProfileId(owner.getId());
+            repository.save(organization);
+        }
     }
 }

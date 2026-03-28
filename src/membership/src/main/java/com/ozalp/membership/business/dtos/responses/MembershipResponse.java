@@ -16,7 +16,7 @@ public class MembershipResponse {
 
     private Organization organization;
 
-    private LocalDateTime joined_at;
+    private LocalDateTime joinedAt;
 
-    private LocalDateTime left_at;
+    private LocalDateTime leftAt;
 }
